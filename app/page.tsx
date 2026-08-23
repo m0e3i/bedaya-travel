@@ -40,7 +40,7 @@ export default function Home() {
     {
       title: "عطلة الغردقة الفاخرة - 5 أيام / 4 ليالي",
       image: "/images/destinations/hurghada-beach.jpg",
-      price: "4,800 ج.م",
+      price: "14,000 ج.م",
       duration: "5 أيام / 4 ليالي",
       features: ["إقامة شاملة All Inclusive", "فندق 4 نجوم على البحر", "دخول الغواصة المائية"],
       message: "مرحباً، أريد حجز عطلة الغردقة الفاخرة (5 أيام / 4 ليالي)."
@@ -48,7 +48,7 @@ export default function Home() {
     {
       title: "سحر الأقصر وأسوان - 4 أيام",
       image: "/images/destinations/luxor-aswan-nile.jpg",
-      price: "5,200 ج.م",
+      price: "15,500 ج.م",
       duration: "4 أيام / 3 ليالي",
       features: ["مرشد سياحي مرافق", "جميع تذاكر المزارات", "الإقامة بفندق نيلي"],
       message: "مرحباً، أريد حجز رحلة الأقصر وأسوان (4 أيام)."
