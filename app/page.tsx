@@ -1,4 +1,4 @@
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { SignInButton } from "@clerk/nextjs";
 
 export default function Home() {
   return (
@@ -7,18 +7,13 @@ export default function Home() {
       <header className="flex justify-between items-center px-6 py-4 border-b border-slate-800">
         <h1 className="text-xl font-bold tracking-wider text-teal-400">BEDAYA TRAVEL</h1>
         
-        {/* أزرار تسجيل الدخول وحساب المستخدم */}
+        {/* أزرار تسجيل الدخول */}
         <div className="flex items-center space-x-4 space-x-reverse">
-          <SignedOut>
-            <SignInButton mode="modal">
-              <button className="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-lg text-sm transition">
-                تسجيل الدخول
-              </button>
-            </SignInButton>
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
+          <SignInButton mode="modal">
+            <button className="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-lg text-sm transition">
+              تسجيل الدخول
+            </button>
+          </SignInButton>
         </div>
 
         <nav className="hidden md:flex space-x-6 space-x-reverse text-sm">
