@@ -475,3 +475,61 @@ export default function Home() {
     </div>
   );
 }
+import type { Metadata } from "next";
+import { Cairo } from "next/font/google";
+import "./globals.css";
+
+const cairo = Cairo({
+  subsets: ["arabic", "latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-cairo",
+});
+
+export const metadata: Metadata = {
+  title: "بداية ترافيل | أفضل عروض الرحلات السياحية في مصر",
+  description:
+    "احجز رحلتك القادمة إلى شرم الشيخ، الغردقة، مرسى علم، والأقصر وأسوان بأفضل الأسعار مع بداية ترافيل. حجز آمن وسريع عبر واتساب.",
+  keywords: [
+    "بداية ترافيل",
+    "رحلات مصر",
+    "شرم الشيخ",
+    "الغردقة",
+    "مرسى علم",
+    "الأقصر وأسوان",
+    "حجز رحلات سياحية",
+  ],
+  openGraph: {
+    title: "بداية ترافيل | أفضل عروض الرحلات السياحية في مصر",
+    description:
+      "استكشف أجمل الوجهات السياحية في مصر بأفضل الأسعار مع بداية ترافيل.",
+    url: "https://bedaya-travel.vercel.app",
+    siteName: "Bedaya Travel",
+    locale: "ar_EG",
+    type: "website",
+    images: [
+      {
+        url: "https://bedaya-travel.vercel.app/images/destinations/sharm-night.jpg",
+        width: 1200,
+        height: 630,
+        alt: "بداية ترافيل",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "بداية ترافيل | أفضل عروض الرحلات السياحية في مصر",
+    description: "احجز رحلتك القادمة بأفضل الأسعار مع بداية ترافيل.",
+  },
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="ar" dir="rtl" className={cairo.variable}>
+      <body className="antialiased">{children}</body>
+    </html>
+  );
+}
