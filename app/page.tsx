@@ -2,26 +2,26 @@ import { SignInButton } from "@clerk/nextjs";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-slate-900 text-white">
+    <div dir="rtl" className="min-h-screen bg-slate-900 text-white font-sans">
       {/* Header / Navbar */}
       <header className="flex justify-between items-center px-6 py-4 border-b border-slate-800">
         <h1 className="text-xl font-bold tracking-wider text-teal-400">BEDAYA TRAVEL</h1>
         
-        {/* أزرار تسجيل الدخول */}
-        <div className="flex items-center space-x-4 space-x-reverse">
-          <SignInButton mode="modal">
-            <button className="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-lg text-sm transition">
-              تسجيل الدخول
-            </button>
-          </SignInButton>
-        </div>
-
         <nav className="hidden md:flex space-x-6 space-x-reverse text-sm">
           <a href="#" className="hover:text-teal-400 transition">الرئيسية</a>
           <a href="#destinations" className="hover:text-teal-400 transition">الوجهات</a>
           <a href="#trips" className="hover:text-teal-400 transition">الرحلات</a>
           <a href="#contact" className="hover:text-teal-400 transition">تواصل معنا</a>
         </nav>
+
+        {/* أزرار تسجيل الدخول */}
+        <div className="flex items-center">
+          <SignInButton mode="modal">
+            <button className="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-lg text-sm transition">
+              تسجيل الدخول
+            </button>
+          </SignInButton>
+        </div>
       </header>
 
       {/* Hero Section */}
@@ -36,7 +36,7 @@ export default function Home() {
           <div className="pt-4">
             <a 
               href="#trips" 
-              className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300"
+              className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 inline-block"
             >
               احجز رحلتك الآن
             </a>
