@@ -4,7 +4,7 @@ import Image from "next/image";
 import { SignInButton } from "@clerk/nextjs";
 
 export default function Home() {
-  const whatsappNumber = "201012794265"; // رقم الواتساب الخاص بك
+  const whatsappNumber = "201222370381"; // رقم الواتساب الخاص بك
   
   // حالات تخزين بيانات نموذج الحجز السريع
   const [clientName, setClientName] = useState('');
