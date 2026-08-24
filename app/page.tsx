@@ -1,21 +1,45 @@
 'use client';
 import { useState } from 'react';
 import Image from "next/image";
-import { SignInButton } from "@clerk/nextjs";
+import { SignInButton, useUser } from "@clerk/nextjs";
 
 export default function Home() {
   const whatsappNumber = "201222370381"; // رقم الواتساب المحدث الخاص بك
+  const { isSignedIn, user } = useUser();
   
   // حالات تخزين بيانات نموذج الحجز السريع
   const [clientName, setClientName] = useState('');
   const [clientPhone, setClientPhone] = useState('');
   const [selectedDestination, setSelectedDestination] = useState('شرم الشيخ');
 
+  // قائمة الرحلات المحجوزة للمستخدم (محاكاة أو تجريبية تظهر في قسم رحلاتي)
+  const [myBookedTrips, setMyBookedTrips] = useState([
+    {
+      id: 1,
+      title: "رحلة شرم الشيخ - 4 أيام / 3 ليالي",
+      date: "15 سبتمبر 2026",
+      status: "مؤكدة ومدفوعة",
+      image: "/images/destinations/sharm-night.jpg"
+    }
+  ]);
+
   const handleBookingSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const message = `مرحباً، أريد حجز رحلة ودفع قيمتها عبر موقع بداية ترافيل.\nالاسم: ${clientName}\nرقم الهاتف: ${clientPhone}\nالوجهة أو العرض المطلوب: ${selectedDestination}`;
     const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
+    
+    // إضافة الرحلة تلقائياً لقسم "رحلاتي" كتجربة تفاعلية فورية
+    setMyBookedTrips(prev => [
+      ...prev,
+      {
+        id: Date.now(),
+        title: selectedDestination,
+        date: "قريباً في 2026",
+        status: "قيد التأكيد والدفع",
+        image: "/images/destinations/sharm-night.jpg"
+      }
+    ]);
   };
   
   // بيانات الوجهات السياحية الأساسية
@@ -28,15 +52,15 @@ export default function Home() {
     { name: "مرسى مطروح", image: "/images/destinations/matrouh-ageeba.jpg", desc: "استمتع بأروع العطلات والرحلات البحرية والترفيهية." },
   ];
 
-  // قسم عروض الرحلات المميزة
+  // قسم عروض الرحلات المميزة (مرتبة حسب الصورة المرسلة: الأقصر، الغردقة، شرم الشيخ)
   const featuredTrips = [
     {
-      title: "رحلة شرم الشيخ - 4 أيام / 3 ليالي",
-      image: "/images/destinations/sharm-night.jpg",
-      price: "3,500 ج.م",
+      title: "سحر الأقصر وأسوان - 4 أيام",
+      image: "/images/destinations/luxor-aswan-nile.jpg",
+      price: "15,500 ج.م",
       duration: "4 أيام / 3 ليالي",
-      features: ["شامل الإفطار والعشاء", "الانتقالات حديثة", "رحلة بحرية مجانية"],
-      message: "مرحباً، أريد حجز وعرض رحلة شرم الشيخ (4 أيام / 3 ليالي)."
+      features: ["مرشد سياحي مرافق", "جميع تذاكر المزارات", "الإقامة بفندق نيلي"],
+      message: "مرحباً، أريد حجز وعرض رحلة الأقصر وأسوان (4 أيام)."
     },
     {
       title: "عطلة الغردقة الفاخرة - 5 أيام / 4 ليالي",
@@ -47,12 +71,12 @@ export default function Home() {
       message: "مرحباً، أريد حجز وعرض عطلة الغردقة الفاخرة (5 أيام / 4 ليالي)."
     },
     {
-      title: "سحر الأقصر وأسوان - 4 أيام",
-      image: "/images/destinations/luxor-aswan-nile.jpg",
-      price: "15,500 ج.م",
+      title: "رحلة شرم الشيخ - 4 أيام / 3 ليالي",
+      image: "/images/destinations/sharm-night.jpg",
+      price: "3,500 ج.م",
       duration: "4 أيام / 3 ليالي",
-      features: ["مرشد سياحي مرافق", "جميع تذاكر المزارات", "الإقامة بفندق نيلي"],
-      message: "مرحباً، أريد حجز وعرض رحلة الأقصر وأسوان (4 أيام)."
+      features: ["شامل الإفطار والعشاء", "الانتقالات حديثة", "رحلة بحرية مجانية"],
+      message: "مرحباً، أريد حجز وعرض رحلة شرم الشيخ (4 أيام / 3 ليالي)."
     }
   ];
 
@@ -68,17 +92,24 @@ export default function Home() {
           <nav className="hidden md:flex gap-6 lg:gap-8 font-medium text-sm lg:text-base">
             <a href="#" className="hover:text-[#19B5A5] transition">الرئيسية</a>
             <a href="#trips" className="hover:text-[#19B5A5] transition">العروض</a>
+            <a href="#my-trips" className="hover:text-[#19B5A5] transition text-[#19B5A5] font-bold">رحلاتي ✈️</a>
             <a href="#destinations" className="hover:text-[#19B5A5] transition">الوجهات</a>
             <a href="#about" className="hover:text-[#19B5A5] transition">من نحن</a>
             <a href="#payment-booking" className="hover:text-[#19B5A5] transition">الدفع والحجز</a>
           </nav>
           
           <div className="flex items-center gap-2 sm:gap-3">
-            <SignInButton mode="modal">
-              <button className="bg-slate-800 hover:bg-slate-700 text-white border border-[#19B5A5] px-3 sm:px-4 py-2 rounded-full font-semibold transition text-xs sm:text-sm">
-                تسجيل الدخول
-              </button>
-            </SignInButton>
+            {!isSignedIn ? (
+              <SignInButton mode="modal">
+                <button className="bg-slate-800 hover:bg-slate-700 text-white border border-[#19B5A5] px-3 sm:px-4 py-2 rounded-full font-semibold transition text-xs sm:text-sm">
+                  تسجيل الدخول
+                </button>
+              </SignInButton>
+            ) : (
+              <span className="text-xs sm:text-sm bg-[#19B5A5]/20 text-[#19B5A5] px-3 py-1 rounded-full font-bold">
+                أهلاً، {user?.firstName || 'مسافر'}
+              </span>
+            )}
 
             <a 
               href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent("مرحباً، أريد حجز رحلة عبر موقع بداية ترافيل.")}`} 
@@ -105,19 +136,14 @@ export default function Home() {
             <a href="#trips" className="bg-[#FF7A59] hover:bg-[#e06545] text-white px-6 sm:px-8 py-3 rounded-full font-bold text-base sm:text-lg transition shadow-lg">
               استعرض العروض 🌟
             </a>
-            <a 
-              href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent("مرحباً، أود الاستفسار عن تفاصيل الرحلات والدفع.")}`} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="border-2 border-white hover:bg-white hover:text-[#006B7A] px-6 sm:px-8 py-3 rounded-full font-bold text-base sm:text-lg transition inline-flex items-center justify-center"
-            >
-              تواصل عبر واتساب
+            <a href="#my-trips" className="bg-white text-[#006B7A] hover:bg-gray-100 px-6 sm:px-8 py-3 rounded-full font-bold text-base sm:text-lg transition shadow-lg">
+              عرض رحلاتي ✈️
             </a>
           </div>
         </div>
       </section>
 
-      {/* Featured Trips (قسم العروض المميزة) */}
+      {/* Featured Trips (قسم العروض المميزة بالترتيب المطلوب) */}
       <section id="trips" className="py-16 px-4 sm:px-6 max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#073B4C] mb-3">عروض الرحلات المميزة 🌟</h2>
@@ -137,7 +163,7 @@ export default function Home() {
                     {trip.duration}
                   </span>
                 </div>
-                <div className="p-5 sm:p-6">
+                <div className="p-5 sm:p-6 text-right">
                   <h3 className="text-lg sm:text-xl font-bold mb-3 text-[#073B4C]">{trip.title}</h3>
                   <ul className="text-gray-600 text-xs sm:text-sm mb-6 space-y-2">
                     {trip.features.map((feat, i) => (
@@ -165,6 +191,46 @@ export default function Home() {
             </div>
           ))}
         </div>
+      </section>
+
+      {/* My Trips Section (قسم رحلاتي - الجديد) */}
+      <section id="my-trips" className="py-16 px-4 sm:px-6 max-w-7xl mx-auto bg-white rounded-3xl my-8 shadow-sm border border-gray-200">
+        <div className="text-center mb-10">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#073B4C] mb-2">رحلاتي المسجلة ✈️</h2>
+          <p className="text-gray-600 text-sm sm:text-base">هنا تجد كافة الرحلات والحجوزات التي قمت بها معنا بكل سهولة.</p>
+        </div>
+
+        {myBookedTrips.length === 0 ? (
+          <div className="text-center py-12 text-gray-500">
+            <p className="text-lg mb-4">ليس لديك أي رحلات مسجلة حتى الآن.</p>
+            <a href="#trips" className="bg-[#19B5A5] text-white px-6 py-3 rounded-xl font-bold text-sm inline-block">
+              تصفح العروض واحجز رحلتك الأولى
+            </a>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {myBookedTrips.map((myTrip) => (
+              <div key={myTrip.id} className="bg-[#F7F3EA] rounded-2xl p-5 border border-gray-200 shadow flex flex-col justify-between">
+                <div>
+                  <div className="h-36 relative w-full overflow-hidden rounded-xl mb-4">
+                    <img src={myTrip.image} alt={myTrip.title} className="w-full h-full object-cover" />
+                  </div>
+                  <h3 className="font-bold text-lg text-[#073B4C] mb-2">{myTrip.title}</h3>
+                  <p className="text-xs text-gray-600 mb-1">📅 موعد الرحلة: {myTrip.date}</p>
+                  <p className="text-xs font-semibold text-[#19B5A5] mb-4">📌 الحالة: {myTrip.status}</p>
+                </div>
+                <a 
+                  href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`مرحباً، أود الاستفسار وتأكيد تفاصيل حجز رحلتي: ${myTrip.title}`)}`}
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-[#073B4C] text-white text-center py-2 rounded-xl text-xs sm:text-sm font-bold hover:bg-[#006B7A] transition"
+                >
+                  متابعة تفاصيل الحجز عبر واتساب
+                </a>
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Destinations Section */}
@@ -247,9 +313,9 @@ export default function Home() {
                 onChange={(e) => setSelectedDestination(e.target.value)}
                 className="w-full px-4 py-3 rounded-xl text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-[#19B5A5] text-sm sm:text-base"
               >
-                <option value="رحلة شرم الشيخ - 4 أيام">رحلة شرم الشيخ - 4 أيام (3,500 ج.م)</option>
-                <option value="عطلة الغردقة الفاخرة - 5 أيام">عطلة الغردقة الفاخرة - 5 أيام (14,000 ج.م)</option>
                 <option value="سحر الأقصر وأسوان - 4 أيام">سحر الأقصر وأسوان - 4 أيام (15,500 ج.م)</option>
+                <option value="عطلة الغردقة الفاخرة - 5 أيام">عطلة الغردقة الفاخرة - 5 أيام (14,000 ج.م)</option>
+                <option value="رحلة شرم الشيخ - 4 أيام">رحلة شرم الشيخ - 4 أيام (3,500 ج.م)</option>
                 <option value="شرم الشيخ (وجهة عامة)">شرم الشيخ (وجهة عامة)</option>
                 <option value="الغردقة (وجهة عامة)">الغردقة (وجهة عامة)</option>
                 <option value="مرسى علم (وجهة عامة)">مرسى علم (وجهة عامة)</option>
@@ -261,7 +327,7 @@ export default function Home() {
               type="submit" 
               className="w-full bg-[#19B5A5] hover:bg-[#148f83] text-white py-4 rounded-xl font-bold text-base sm:text-lg transition shadow-lg"
             >
-              تأكيد الطلب وبدء الدفع عبر واتساب 🚀
+              تأكيد الطلب وبدء الدفع عبر واتساب وإضافتها لـ "رحلاتي" 🚀
             </button>
           </form>
         </div>
