@@ -7,13 +7,13 @@ export default function Home() {
   const whatsappNumber = "201222370381"; // رقم الواتساب المحدث الخاص بك
   const { isSignedIn, user } = useUser();
   
-  // جعل التبويبة الافتراضية هي العروض والرحلات المميزة (trips)
-  const [activeTab, setActiveTab] = useState('trips');
+  // جعل الوجهات السياحية هي القسم الافتراضي الذي يظهر فور فتح الموقع
+  const [activeTab, setActiveTab] = useState('destinations');
   
   // حالات تخزين بيانات نموذج الحجز السريع
   const [clientName, setClientName] = useState('');
   const [clientPhone, setClientPhone] = useState('');
-  const [selectedDestination, setSelectedDestination] = useState('سحر الأقصر وأسوان - 4 أيام');
+  const [selectedDestination, setSelectedDestination] = useState('شرم الشيخ (وجهة سياحية)');
 
   // 1. قائمة الرحلات المسجلة (تبدأ فارغة تماماً ولا تظهر إلا عند حجز رحلة فعلية)
   const [myBookedTrips, setMyBookedTrips] = useState<any[]>([]);
@@ -68,15 +68,15 @@ export default function Home() {
   
   // بيانات الوجهات السياحية الأساسية
   const destinations = [
-    { name: "مرسى علم", image: "/images/destinations/marsa-alam.jpg", desc: "استمتع بأروع العطلات والرحلات البحرية والترفيهية." },
-    { name: "الغردقة", image: "/images/destinations/hurghada-beach.jpg", desc: "استمتع بأروع العطلات والرحلات البحرية والترفيهية." },
     { name: "شرم الشيخ", image: "/images/destinations/sharm-night.jpg", desc: "استمتع بأروع العطلات والرحلات البحرية والترفيهية." },
+    { name: "الغردقة", image: "/images/destinations/hurghada-beach.jpg", desc: "استمتع بأروع العطلات والرحلات البحرية والترفيهية." },
+    { name: "مرسى علم", image: "/images/destinations/marsa-alam.jpg", desc: "استمتع بأروع العطلات والرحلات البحرية والترفيهية." },
     { name: "العين السخنة", image: "/images/destinations/sokhna-resort.jpg", desc: "استمتع بأروع العطلات والرحلات البحرية والترفيهية." },
     { name: "الأقصر وأسوان", image: "/images/destinations/luxor-aswan-nile.jpg", desc: "استمتع بأروع العطلات والرحلات البحرية والترفيهية." },
     { name: "مرسى مطروح", image: "/images/destinations/matrouh-ageeba.jpg", desc: "استمتع بأروع العطلات والرحلات البحرية والترفيهية." },
   ];
 
-  // قسم عروض الرحلات المميزة (مطابق تماماً للصورة المطلوبة)
+  // قسم عروض الرحلات المميزة
   const featuredTrips = [
     {
       title: "رحلة شرم الشيخ - 4 أيام / 3 ليالي",
@@ -106,23 +106,23 @@ export default function Home() {
       {/* Navbar */}
       <header className="bg-[#073B4C] text-white shadow-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
-          <div className="text-xl sm:text-2xl font-bold tracking-wider flex items-center gap-2 cursor-pointer" onClick={() => setActiveTab('trips')} dir="ltr">
+          <div className="text-xl sm:text-2xl font-bold tracking-wider flex items-center gap-2 cursor-pointer" onClick={() => setActiveTab('destinations')} dir="ltr">
             <span className="text-[#19B5A5]">BEDAYA</span>
             <span className="text-white">TRAVEL</span>
           </div>
           
           <nav className="hidden md:flex gap-4 lg:gap-6 font-medium text-sm lg:text-base">
+            <button onClick={() => setActiveTab('destinations')} className={`transition pb-1 ${activeTab === 'destinations' ? 'text-[#19B5A5] border-b-2 border-[#19B5A5] font-bold' : 'hover:text-[#19B5A5]'}`}>
+              الوجهات السياحية
+            </button>
             <button onClick={() => setActiveTab('trips')} className={`transition pb-1 ${activeTab === 'trips' ? 'text-[#19B5A5] border-b-2 border-[#19B5A5] font-bold' : 'hover:text-[#19B5A5]'}`}>
-              الرئيسية والعروض
+              عروض الرحلات المميزة
             </button>
             <button onClick={() => setActiveTab('my-trips')} className={`transition pb-1 ${activeTab === 'my-trips' ? 'text-[#19B5A5] border-b-2 border-[#19B5A5] font-bold' : 'hover:text-[#19B5A5]'}`}>
               رحلاتي ✈️
             </button>
             <button onClick={() => setActiveTab('payments')} className={`transition pb-1 ${activeTab === 'payments' ? 'text-[#19B5A5] border-b-2 border-[#19B5A5] font-bold' : 'hover:text-[#19B5A5]'}`}>
               المدفوعات 💳
-            </button>
-            <button onClick={() => setActiveTab('destinations')} className={`transition pb-1 ${activeTab === 'destinations' ? 'text-[#19B5A5] border-b-2 border-[#19B5A5] font-bold' : 'hover:text-[#19B5A5]'}`}>
-              الوجهات
             </button>
             <button onClick={() => setActiveTab('booking')} className={`transition pb-1 ${activeTab === 'booking' ? 'text-[#19B5A5] border-b-2 border-[#19B5A5] font-bold' : 'hover:text-[#19B5A5]'}`}>
               حجز سريع
@@ -168,6 +168,9 @@ export default function Home() {
           </p>
           
           <div className="flex justify-center gap-3 flex-wrap">
+            <button onClick={() => setActiveTab('destinations')} className={`px-5 py-2.5 rounded-full font-bold text-sm transition shadow ${activeTab === 'destinations' ? 'bg-[#FF7A59] text-white' : 'bg-white/20 hover:bg-white/30 text-white'}`}>
+              🏝️ أشهر الوجهات السياحية
+            </button>
             <button onClick={() => setActiveTab('trips')} className={`px-5 py-2.5 rounded-full font-bold text-sm transition shadow ${activeTab === 'trips' ? 'bg-[#FF7A59] text-white' : 'bg-white/20 hover:bg-white/30 text-white'}`}>
               🌟 عروض الرحلات المميزة
             </button>
@@ -184,7 +187,43 @@ export default function Home() {
       {/* Main Dynamic Content Area */}
       <main className="py-12 px-4 sm:px-6 max-w-7xl mx-auto min-h-[500px]">
         
-        {/* 1. قسم العروض المميزة (الافتراضي عند فتح التبويبة) */}
+        {/* 1. قسم الوجهات السياحية (الافتراضي عند فتح الموقع) */}
+        {activeTab === 'destinations' && (
+          <div className="animate-fadeIn">
+            <div className="text-center mb-10">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#073B4C] mb-3">
+                أشهر الوجهات السياحية 🏝️
+              </h2>
+              <p className="text-gray-600 text-sm sm:text-base">استكشف أجمل المدن والمعالم السياحية في مصر واختر وجهتك المفضلة.</p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+              {destinations.map((dest, index) => (
+                <div key={index} className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition border border-gray-100 text-right flex flex-col justify-between">
+                  <div className="h-44 sm:h-48 relative w-full overflow-hidden">
+                    <img src={dest.image} alt={dest.name} className="w-full h-full object-cover hover:scale-105 transition duration-500" />
+                  </div>
+                  <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                      <h3 className="text-lg sm:text-xl font-bold mb-2 text-[#073B4C]">{dest.name}</h3>
+                      <p className="text-gray-600 text-xs sm:text-sm mb-4 leading-relaxed">{dest.desc}</p>
+                    </div>
+                    <button 
+                      onClick={() => {
+                        setSelectedDestination(`${dest.name} (وجهة سياحية)`);
+                        setActiveTab('booking');
+                      }}
+                      className="bg-[#073B4C] hover:bg-[#006B7A] text-white w-full py-2.5 rounded-xl font-bold text-xs sm:text-sm transition shadow text-center"
+                    >
+                      احجز رحلة إلى {dest.name} ←
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* 2. قسم عروض الرحلات المميزة */}
         {activeTab === 'trips' && (
           <div className="animate-fadeIn">
             <div className="text-center mb-10">
@@ -233,7 +272,7 @@ export default function Home() {
           </div>
         )}
 
-        {/* 2. قسم رحلاتي */}
+        {/* 3. قسم رحلاتي */}
         {activeTab === 'my-trips' && (
           <div className="bg-white rounded-3xl p-6 sm:p-10 shadow-md border border-gray-200 animate-fadeIn">
             <div className="text-center mb-8">
@@ -246,8 +285,8 @@ export default function Home() {
                 <div className="text-5xl mb-4">🧳</div>
                 <p className="text-lg font-bold text-[#073B4C] mb-2">ليس لديك أي رحلات مسجلة حتى الآن.</p>
                 <p className="text-sm text-gray-500 mb-6">عند حجز أي رحلة أو عرض معنا، ستظهر تفاصيلها وحالتها هنا مباشرة!</p>
-                <button onClick={() => setActiveTab('trips')} className="bg-[#19B5A5] hover:bg-[#148f83] text-white px-6 py-3 rounded-xl font-bold text-sm transition shadow">
-                  تصفح العروض واحجز رحلتك الأولى 🌟
+                <button onClick={() => setActiveTab('destinations')} className="bg-[#19B5A5] hover:bg-[#148f83] text-white px-6 py-3 rounded-xl font-bold text-sm transition shadow">
+                  تصفح الوجهات السياحية واحجز رحلتك الأولى 🌟
                 </button>
               </div>
             ) : (
@@ -286,7 +325,7 @@ export default function Home() {
           </div>
         )}
 
-        {/* 3. قسم المدفوعات وبوابة الدفع */}
+        {/* 4. قسم المدفوعات وبوابة الدفع */}
         {activeTab === 'payments' && (
           <div className="bg-white rounded-3xl p-6 sm:p-10 shadow-md border border-gray-200 animate-fadeIn max-w-4xl mx-auto">
             <div className="text-center mb-8">
@@ -297,8 +336,8 @@ export default function Home() {
             {paymentsList.length === 0 ? (
               <div className="text-center py-12 text-gray-500">
                 <p className="text-lg font-medium mb-4">لا توجد فواتير أو مدفوعات معلقة حالياً.</p>
-                <button onClick={() => setActiveTab('trips')} className="bg-[#073B4C] text-white px-6 py-3 rounded-xl font-bold text-sm">
-                  اختر رحلتك لإنشاء فاتورة ودفعها
+                <button onClick={() => setActiveTab('destinations')} className="bg-[#073B4C] text-white px-6 py-3 rounded-xl font-bold text-sm">
+                  اختر وجهتك أو رحلتك لإنشاء فاتورة ودفعها
                 </button>
               </div>
             ) : (
@@ -330,37 +369,6 @@ export default function Home() {
                 ))}
               </div>
             )}
-          </div>
-        )}
-
-        {/* 4. قسم الوجهات السياحية */}
-        {activeTab === 'destinations' && (
-          <div className="animate-fadeIn">
-            <h2 className="text-2xl sm:text-3xl font-bold text-center mb-10 text-[#073B4C]">
-              أشهر الوجهات السياحية 🏝️
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
-              {destinations.map((dest, index) => (
-                <div key={index} className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition border border-gray-100 text-right">
-                  <div className="h-44 sm:h-48 relative w-full overflow-hidden">
-                    <img src={dest.image} alt={dest.name} className="w-full h-full object-cover hover:scale-105 transition duration-500" />
-                  </div>
-                  <div className="p-5 sm:p-6">
-                    <h3 className="text-lg sm:text-xl font-bold mb-2">{dest.name}</h3>
-                    <p className="text-gray-600 text-xs sm:text-sm mb-4 leading-relaxed">{dest.desc}</p>
-                    <button 
-                      onClick={() => {
-                        setSelectedDestination(`${dest.name} (وجهة سياحية)`);
-                        setActiveTab('booking');
-                      }}
-                      className="text-[#006B7A] font-bold hover:underline text-xs sm:text-sm inline-block"
-                    >
-                      احجز رحلة إلى {dest.name} ←
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
         )}
 
@@ -403,9 +411,13 @@ export default function Home() {
                     onChange={(e) => setSelectedDestination(e.target.value)}
                     className="w-full px-4 py-3 rounded-xl text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-[#19B5A5] text-sm sm:text-base"
                   >
-                    <option value="سحر الأقصر وأسوان - 4 أيام">سحر الأقصر وأسوان - 4 أيام (15,500 ج.م)</option>
-                    <option value="عطلة الغردقة الفاخرة - 5 أيام">عطلة الغردقة الفاخرة - 5 أيام (14,000 ج.م)</option>
-                    <option value="رحلة شرم الشيخ - 4 أيام">رحلة شرم الشيخ - 4 أيام (3,500 ج.م)</option>
+                    <option value="شرم الشيخ (وجهة سياحية)">شرم الشيخ (وجهة سياحية)</option>
+                    <option value="الغردقة (وجهة سياحية)">الغردقة (وجهة سياحية)</option>
+                    <option value="مرسى علم (وجهة سياحية)">مرسى علم (وجهة سياحية)</option>
+                    <option value="العين السخنة (وجهة سياحية)">العين السخنة (وجهة سياحية)</option>
+                    <option value="الأقصر وأسوان (وجهة سياحية)">الأقصر وأسوان (وجهة سياحية)</option>
+                    <option value="مرسى مطروح (وجهة سياحية)">مرسى مطروح (وجهة سياحية)</option>
+                    <option value="سحر الأقصر وأسوان - 4 أيام (عرض)">سحر الأقصر وأسوان - 4 أيام (عرض)</option>
                   </select>
                 </div>
                 <button 
